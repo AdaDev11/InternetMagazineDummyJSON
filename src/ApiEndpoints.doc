@@ -1,0 +1,336 @@
+//DummJson
+//Home:
+//For test:
+https://dummyjson.com/test
+//result:
+/_ { status: 'ok', method: 'GET' } _/
+
+//for limit
+https://dummyjson.com/RESOURCE/?limit=10&skip=5&select=key1,key2,key3
+
+//bir qansha manisler boyinsha filtrlew ushin:
+https://dummyjson.com/RESOURCE/?limit=10&skip=5&select=key1&select=key2&select=key3
+
+//waiqtti belgilep shigariw timeline settime
+https://dummyjson.com/RESOURCE/?delay=1000
+
+//Avtorizaciya ushin
+/_ providing access token in bearer _/
+fetch('https://dummyjson.com/auth/RESOURCE', {
+method: 'GET', /_ or POST/PUT/PATCH/DELETE _/
+headers: {
+'Authorization': 'Bearer /_ YOUR_ACCESS_TOKEN_HERE _/',
+'Content-Type': 'application/json'
+},
+})
+.then(res => res.json())
+.then(console.log);
+
+//klienttin ip manzilin aliw
+// GET
+fetch('https://dummyjson.com/ip')
+.then(res => res.json())
+.then(console.log);
+
+/_ { ip: '127.0.0.1', userAgent: 'Mozilla/5.0 ...' } _/
+
+//Dinamic Image
+//kvadrat suwret generaciya
+// https://dummyjson.com/image/SIZE
+fetch('https://dummyjson.com/image/150')
+.then(response => response.blob()) // Convert response to blob
+.then(blob => {
+console.log('Fetched image blob:', blob);
+})
+// Blob {size: SIZE, type: 'image/png'}
+
+//arnawli olshemde img generaciya
+// https://dummyjson.com/image/WIDTHxHEIGHT
+fetch('https://dummyjson.com/image/200x100')
+.then(response => response.blob()) // Convert response to blob
+.then(blob => {
+console.log('Fetched image blob:', blob);
+})
+// Blob {size: SIZE, type: 'image/png'}
+
+//arnawli text pn img generaciya
+// https://dummyjson.com/image/SIZE/?text=TEXT
+fetch('https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter')
+.then(response => response.blob()) // Convert response to blob
+.then(blob => {
+console.log('Fetched image blob:', blob);
+})
+// Blob {size: SIZE, type: 'image/png'}
+
+//arnawli color pn img generaciya
+// https://dummyjson.com/image/SIZE/BACKGROUND/COLOR
+fetch('https://dummyjson.com/image/400x200/282828')
+.then(response => response.blob()) // Convert response to blob
+.then(blob => {
+console.log('Fetched image blob:', blob);
+})
+// Blob {size: SIZE, type: 'image/png'}
+
+//turli formatta img generaciya
+// https://dummyjson.com/image/SIZE/BACKGROUND/COLOR
+fetch('https://dummyjson.com/image/400x200?type=webp&text=I+am+a+webp+image')
+.then(response => response.blob()) // Convert response to blob
+.then(blob => {
+console.log('Fetched image blob:', blob);
+})
+// Blob {size: SIZE, type: 'image/webp'}
+
+//identificator img generaciya
+// https://dummyjson.com/icon/HASH/SIZE/?type=png (or svg)
+fetch('https://dummyjson.com/icon/abc123/150') // png is default
+.then(response => response.blob()) // Convert response to blob
+.then(blob => {
+console.log('Fetched image blob:', blob);
+})
+// Blob {size: SIZE, type: 'image/png'}
+
+//Auth
+//login user and get token
+fetch('https://dummyjson.com/auth/login', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+
+    username: 'emilys',
+    password: 'emilyspass',
+    expiresInMins: 30, // optional, defaults to 60
+
+}),
+credentials: 'include' // Include cookies (e.g., accessToken) in the request
+})
+.then(res => res.json())
+.then(console.log);
+
+//Avtorizaciya bolgan userdi aliw
+/_ providing accessToken in bearer _/
+fetch('https://dummyjson.com/auth/me', {
+method: 'GET',
+headers: {
+'Authorization': 'Bearer /_ YOUR_ACCESS_TOKEN_HERE _/', // Pass JWT via Authorization header
+},
+credentials: 'include' // Include cookies (e.g., accessToken) in the request
+})
+.then(res => res.json())
+.then(console.log);
+
+//autentifikaciya seansin janalaw
+fetch('https://dummyjson.com/auth/refresh', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+refreshToken: '/_ YOUR_REFRESH_TOKEN_HERE _/', // Optional, if not provided, the server will use the cookie
+expiresInMins: 30, // optional (FOR ACCESS TOKEN), defaults to 60
+}),
+credentials: 'include' // Include cookies (e.g., accessToken) in the request
+})
+.then(res => res.json())
+.then(console.log);
+
+//Product
+//get all products
+fetch('https://dummyjson.com/products')
+.then(res => res.json())
+.then(console.log);
+
+//bir productani aliw
+fetch('https://dummyjson.com/products/1')
+.then(res => res.json())
+.then(console.log);
+
+//productti izlew
+fetch('https://dummyjson.com/products/search?q=phone')
+.then(res => res.json())
+.then(console.log);
+
+//productti limit sheklew ham oztizip izleriw
+fetch('https://dummyjson.com/products?limit=10&skip=10&select=title,price')
+.then(res => res.json())
+.then(console.log);
+
+//sort product
+fetch('https://dummyjson.com/products?sortBy=title&order=asc')
+.then(res => res.json())
+.then(console.log);
+
+//barliq kategoriyani aliw
+fetch('https://dummyjson.com/products/categories')
+.then(res => res.json())
+.then(console.log);
+
+//kategoriya boyinsha aliw
+fetch('https://dummyjson.com/products/category/smartphones')
+.then(res => res.json())
+.then(console.log);
+
+//taza producta qosiw
+fetch('https://dummyjson.com/products/add', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+title: 'BMW Pencil',
+/_ other product data _/
+})
+})
+.then(res => res.json())
+.then(console.log);
+
+//productani ozgertiw janalaw
+/_ updating title of product with id 1 _/
+fetch('https://dummyjson.com/products/1', {
+method: 'PUT', /_ or PATCH _/
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+title: 'iPhone Galaxy +1'
+})
+})
+.then(res => res.json())
+.then(console.log);
+
+//productani oshiriw
+fetch('https://dummyjson.com/products/1', {
+method: 'DELETE',
+})
+.then(res => res.json())
+.then(console.log);
+
+//Cards
+//get all Cards
+fetch('https://dummyjson.com/carts')
+.then(res => res.json())
+.then(console.log);
+
+//bir cardti aliw
+fetch('https://dummyjson.com/carts/1')
+.then(res => res.json())
+.then(console.log);
+
+//user boyinsha cardi aliw
+// getting carts by user with id 5
+fetch('https://dummyjson.com/carts/user/5')
+.then(res => res.json())
+.then(console.log);
+
+//cardqa jana producta qosiw
+fetch('https://dummyjson.com/carts/add', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+userId: 1,
+products: [
+{
+id: 144,
+quantity: 4,
+},
+{
+id: 98,
+quantity: 1,
+},
+]
+})
+})
+.then(res => res.json())
+.then(console.log);
+
+//cardi janalaw
+/_ adding products in cart with id 1 _/
+fetch('https://dummyjson.com/carts/1', {
+method: 'PUT', /_ or PATCH _/
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+merge: true, // this will include existing products in the cart
+products: [
+{
+id: 1,
+quantity: 1,
+},
+]
+})
+})
+.then(res => res.json())
+.then(console.log);
+
+//cardi oshiriw
+fetch('https://dummyjson.com/carts/1', {
+method: 'DELETE',
+})
+.then(res => res.json())
+.then(console.log);
+
+//Retsepts
+//retseptlardi aliw
+fetch('https://dummyjson.com/recipes')
+.then(res => res.json())
+.then(console.log);
+
+//bir retseptti aliw
+fetch('https://dummyjson.com/recipes/1')
+.then(res => res.json())
+.then(console.log);
+
+//retsepti sortlaw
+fetch('https://dummyjson.com/recipes/search?q=Margherita')
+.then(res => res.json())
+.then(console.log);
+
+//resteptlardi sheklew otkerip jiberiw
+fetch('https://dummyjson.com/recipes?limit=10&skip=10&select=name,image')
+.then(res => res.json())
+.then(console.log);
+
+//resteptlardi saralaw
+fetch('https://dummyjson.com/recipes?sortBy=name&order=asc')
+.then(res => res.json())
+.then(console.log);
+
+//barliw resteptlar teglarin aliw
+fetch('https://dummyjson.com/recipes/tags')
+.then(res => res.json())
+.then(console.log);
+
+//teg boyinsha resteptlardi aliw
+fetch('https://dummyjson.com/recipes/tag/Pakistani')
+.then(res => res.json())
+.then(console.log);
+
+//awqatlaniw arqali resteptlardi aliw
+fetch('https://dummyjson.com/recipes/meal-type/snack')
+.then(res => res.json())
+.then(console.log);
+
+//restept qosiw
+fetch('https://dummyjson.com/recipes/add', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+name: 'Tasty Pizza'
+/_ other recipe data _/
+})
+})
+.then(res => res.json())
+.then(console.log);
+
+//update ratesept
+/_ updating name of recipe with id 1 _/
+fetch('https://dummyjson.com/recipes/1', {
+method: 'PUT', /_ or PATCH _/
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+name: 'Tasty Pizza'
+})
+})
+.then(res => res.json())
+.then(console.log);
+
+//retseptti oshiriw/_ deleting recipe with id 1 _/
+fetch('https://dummyjson.com/recipes/1', {
+method: 'DELETE'
+})
+.then(res => res.json())
+.then(console.log);
+
+dummyda endpointlar kop jazip otira beriw qate)
