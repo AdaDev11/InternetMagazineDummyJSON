@@ -1,17 +1,36 @@
-export function checkTokenExpiry() {
-    const tokenExpiry = localStorage.getItem("tokenExpiry");
-    if (!tokenExpiry) return false;
+export function getAccessToken() {
+    return typeof window !== "undefined"
+        ? localStorage.getItem("accessToken")
+        : null;
+}
 
-    const now = Date.now();
-    return now < Number(tokenExpiry);
+export function getTokenExpiry() {
+    return typeof window !== "undefined"
+        ? localStorage.getItem("tokenExpiry")
+        : null;
 }
 
 export function isLoggedIn() {
-    const token = localStorage.getItem("token");
-    return !!token;
+    const token = getAccessToken();
+    if (!token) return false;
+
+    const expiry = getTokenExpiry();
+    if (expiry) {
+        return Date.now() < Number(expiry);
+    }
+
+    return true;
+}
+
+export function saveAuth({ accessToken, expiresInSeconds }) {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem(
+        "tokenExpiry",
+        String(Date.now() + expiresInSeconds * 1000)
+    );
 }
 
 export function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("tokenExpiry");
 }

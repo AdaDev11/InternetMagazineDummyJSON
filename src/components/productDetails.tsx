@@ -21,10 +21,14 @@ import ShareIcon from "@mui/icons-material/Share";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import AddModeratorOutlinedIcon from "@mui/icons-material/AddModeratorOutlined";
 import ReplayOutlinedIcon from "@mui/icons-material/ReplayOutlined";
+import ProductCard from "./products/components/AddToCartButton";
+import { useState } from "react";
 
 export default function ProductDetailsPage() {
     const params = useParams();
     const id = params?.id;
+
+    const [qty, setQty] = useState(1);
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["product", id],
@@ -171,13 +175,8 @@ export default function ProductDetailsPage() {
                         }}
                     >
                         <Typography>Quantity</Typography>
-                        <Box
-                            sx={{
-                                color: "black",
-                                display: "flex",
-                                gap: 2,
-                            }}
-                        >
+
+                        <Box sx={{ color: "black", display: "flex", gap: 2 }}>
                             <Button
                                 sx={{
                                     background: "#e0e0",
@@ -185,9 +184,11 @@ export default function ProductDetailsPage() {
                                     fontSize: "14px",
                                     border: "1px solid #cccc",
                                 }}
+                                onClick={() => qty > 1 && setQty(qty - 1)}
                             >
                                 -
                             </Button>
+
                             <Typography
                                 sx={{
                                     fontSize: "14px",
@@ -196,8 +197,9 @@ export default function ProductDetailsPage() {
                                     justifyContent: "center",
                                 }}
                             >
-                                {data.qunatity} 1
+                                {qty}
                             </Typography>
+
                             <Button
                                 sx={{
                                     background: "#e0e0",
@@ -205,6 +207,7 @@ export default function ProductDetailsPage() {
                                     fontSize: "14px",
                                     border: "1px solid #cccc",
                                 }}
+                                onClick={() => setQty(qty + 1)}
                             >
                                 +
                             </Button>
@@ -219,18 +222,7 @@ export default function ProductDetailsPage() {
                             mt: 2,
                         }}
                     >
-                        <Button
-                            startIcon={<LocalGroceryStoreOutlinedIcon />}
-                            sx={{
-                                color: "#ffff",
-                                background: "black",
-                                borderRadius: "10px",
-                                width: "90%",
-                                mt: "2%",
-                            }}
-                        >
-                            Add to Cart
-                        </Button>
+                        <ProductCard product={data} qty={qty} />
 
                         <Button
                             sx={{

@@ -1,29 +1,27 @@
 "use client";
 import { useState } from "react";
-import { loginUser } from "../features/auth/service/authService";
-import { useRouter } from "next/navigation";
 import { Box, Input, Button, Typography } from "@mui/material";
+import { useLogin } from "@/hooks/useLogin";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const { mutate, isLoading } = useLogin();
     const router = useRouter();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await loginUser({ username, password });
-            router.push("/profile");
-        } catch (err) {
-            setError("Login failed");
-        }
-    };
 
     return (
         <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={(e) => {
+                e.preventDefault();
+                mutate(
+                    { username, password },
+                    {
+                        onSuccess: () => router.push("/profile"),
+                    }
+                );
+            }}
             sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -35,32 +33,19 @@ export default function Page() {
             <Typography variant="h5" textAlign="center">
                 Login
             </Typography>
-
             <Input
                 placeholder="Username"
-                sx={{ border: "1px solid black", borderRadius: 1, px: 1 }}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <Input
                 placeholder="Password"
                 type="password"
-                sx={{ border: "1px solid black", borderRadius: 1, px: 1 }}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-
-            {error && (
-                <Typography color="error" fontSize="0.9rem" textAlign="center">
-                    {error}
-                </Typography>
-            )}
-
-            <Button
-                type="submit" // ✅ MUHIM: bu button submit bo‘lishi kerak
-                variant="contained"
-            >
-                Log in
+            <Button type="submit" variant="contained" disabled={isLoading}>
+                {isLoading ? "Loading..." : "Log in"}
             </Button>
         </Box>
     );

@@ -9,89 +9,124 @@ import {
     CardActions,
     Rating,
     Button,
+    Popover,
 } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useAddProduct } from "@/hooks/useAddProduct";
+import { usePopoverMessage } from "@/hooks/usePopoverMessage";
+import AddToCartButton from "./AddToCartButton";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, qty }) {
+    const { mutate } = useAddProduct();
+    const { anchorEl, message, color, showPopover } = usePopoverMessage();
+
+    const handleAdd = (e: React.MouseEvent<HTMLElement>) => {
+        mutate(
+            {
+                title: product.title,
+                price: product.price,
+                category: product.category,
+            },
+            {
+                onSuccess: () => {
+                    showPopover(e.currentTarget, "Product added!", "success");
+                },
+                onError: () => {
+                    showPopover(e.currentTarget, "Error occurred!", "error");
+                },
+            }
+        );
+    };
+
     return (
-        <Card
-            sx={{
-                weight: "100%",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                margin: "1px",
-                borderRadius: "10px",
-            }}
-            key={product.id}
-            gap={2}
-        >
-            <CardMedia
-                component="img"
-                image={
-                    product.images?.[0] ??
-                    "https://via.placeholder.com/300x200?text=No+image"
-                }
-                alt={product.title}
+        <>
+            <Card
                 sx={{
-                    height: 340,
-                    width: "100%",
-                    objectFit: "cover",
+                    weight: "100%",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    margin: "1px",
+                    borderRadius: "10px",
                 }}
-            />
-            <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="subtitle1" noWrap>
-                    {product.title}
-                </Typography>
-
-                <Box
+                key={product.id}
+            >
+                <CardMedia
+                    component="img"
+                    image={
+                        product.images?.[0] ??
+                        "https://via.placeholder.com/300x200?text=No+image"
+                    }
+                    alt={product.title}
                     sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        mt: 1,
+                        height: 340,
+                        width: "100%",
+                        objectFit: "cover",
                     }}
-                >
-                    <Rating
-                        value={Number(product.rating) || 0}
-                        precision={0.5}
-                        readOnly
-                        size="small"
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                        {product.rating}
+                />
+
+                <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="subtitle1" noWrap>
+                        {product.title}
                     </Typography>
-                </Box>
-                <Typography sx={{ fontWeight: "bold" }}>
-                    ${product.price}
-                </Typography>
 
-                <Typography variant="body2" color="text.secondary" noWrap>
-                    {product.category}
-                </Typography>
-            </CardContent>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mt: 1,
+                        }}
+                    >
+                        <Rating
+                            value={Number(product.rating) || 0}
+                            precision={0.5}
+                            readOnly
+                            size="small"
+                        />
+                        <Typography variant="body2" color="text.secondary">
+                            {product.rating}
+                        </Typography>
+                    </Box>
 
-            <CardActions
-                sx={{
-                    margin: "4px",
-                    alignItems: "center",
-                    marginBottom: "9%",
+                    <Typography sx={{ fontWeight: "bold" }}>
+                        ${product.price}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                        {product.category}
+                    </Typography>
+                </CardContent>
+
+                <CardActions sx={{ margin: "4px", marginBottom: "9%" }}>
+                    <AddToCartButton product={product} qty={qty} />
+                </CardActions>
+            </Card>
+
+            <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
                 }}
             >
-                <Button
-                    size="small"
-                    startIcon={<ShoppingCartOutlinedIcon />}
+                <Box
                     sx={{
-                        width: "98%",
-                        background: "black",
-                        color: "#ffff",
-                        fontSize: "14px",
+                        p: 1.2,
+                        px: 2,
+                        color: color === "success" ? "green" : "red",
+                        fontWeight: "bold",
                     }}
                 >
-                    Add to cart
-                </Button>
-            </CardActions>
-        </Card>
+                    {message}
+                </Box>
+            </Popover>
+        </>
     );
 }

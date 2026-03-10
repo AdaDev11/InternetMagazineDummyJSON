@@ -19,12 +19,18 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isLoggedIn } from "../utils/authHelper";
+import ModalCard from "../components/ModalCard";
+import { useCartStore } from "../hooks/useCartStore";
+import { useAuthStore } from "../hooks/useAuthStore";
 
 export default function Header({ searchValue, setSearchValue }) {
     const router = useRouter();
+    const items = useCartStore((s) => s.items);
+    const updateQuantity = useCartStore((s) => s.updateQuantity);
+    const removeItem = useCartStore((s) => s.removeItem);
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,19 +39,16 @@ export default function Header({ searchValue, setSearchValue }) {
         }
     };
 
-    useEffect(() => {
-        if (isLoggedIn()) {
-            router.push("/login");
-        }
-    });
+    const token = useAuthStore((s) => s.token);
 
     const handelProfileClick = () => {
-        if (isLoggedIn()) {
+        if (token) {
             router.push("/profile");
         } else {
             router.push("/login");
         }
     };
+
     const navigation = [
         { name: "Home", href: "/" },
         { name: "Products", href: "/products" },
@@ -59,6 +62,8 @@ export default function Header({ searchValue, setSearchValue }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const [open, setOpen] = useState(false);
 
     return (
         <AppBar
@@ -152,9 +157,18 @@ export default function Header({ searchValue, setSearchValue }) {
                     <IconButton type="button" onClick={handelProfileClick}>
                         <PersonOutlinedIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => setOpen(true)}>
                         <LocalGroceryStoreOutlinedIcon />
                     </IconButton>
+
+                    <ModalCard
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        cart={items}
+                        updateQty={updateQuantity}
+                        removeItem={removeItem}
+                    />
+
                     <Box
                         sx={{
                             display: {

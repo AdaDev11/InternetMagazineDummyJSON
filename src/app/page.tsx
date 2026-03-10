@@ -10,12 +10,14 @@ import Footer from "../components/footer";
 import FeaturedProducts from "../components/featuredProducts";
 import NewArrivals from "../components/newArrivals";
 import ByCategory from "../components/byCategory";
+import ModalCard from "../components/ModalCard";
 import { useState } from "react";
 
 export default function Home() {
     return (
         <div>
             <Header />
+            <ModalCard />
             <Hero />
             <ByCategory />
             <FeaturedProducts />

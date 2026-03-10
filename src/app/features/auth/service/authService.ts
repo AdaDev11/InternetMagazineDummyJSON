@@ -5,21 +5,15 @@ export async function loginUser({ username, password }) {
         body: JSON.stringify({ username, password }),
     });
 
-    if (!res.ok) throw new Error("Login failed");
+    if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Login failed");
+    }
 
     const data = await res.json();
 
-    if (res.ok) {
-        localStorage.setItem("accessToken", data.accessToken);
-        return data;
-    } else {
-        throw new Error(data.message || "Login failed");
-    }
-
-    // localStorage.setItem("token", data.token);
-    // localStorage.setItem("user", JSON.stringify(data));
-
-    // localStorage.setItem("tokenExpiry", Date.now() + 30 * 60 * 1000);
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("user", JSON.stringify(data));
 
     return data;
 }
