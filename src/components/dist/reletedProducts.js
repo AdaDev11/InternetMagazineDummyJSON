@@ -5,7 +5,7 @@ var navigation_1 = require("next/navigation");
 var useProductForDetails_1 = require("../hooks/useProductForDetails");
 var useRelatedProducts_1 = require("../hooks/useRelatedProducts");
 var material_1 = require("@mui/material");
-var ProductCard_1 = require("../products/components/ProductCard");
+var ProductCard_1 = require("./products/components/ProductCard");
 function RelatedProducts() {
     var _a;
     var params = navigation_1.useParams();
@@ -28,6 +28,6 @@ function RelatedProducts() {
         React.createElement(material_1.Grid, { container: true, spacing: 4 },
             relatedLoading && React.createElement("p", null, "Loading related..."), (_a = relatedProducts === null || relatedProducts === void 0 ? void 0 : relatedProducts.products) === null || _a === void 0 ? void 0 :
             _a.map(function (product) { return (React.createElement(material_1.Grid, { size: { xs: 12, sm: 6, md: 4, lg: 3 }, key: product.id },
-                React.createElement(ProductCard_1.ProductCard, { product: product, qty: 1 }))); }))));
+                React.createElement(ProductCard_1["default"], { product: product, qty: 1 }))); }))));
 }
 exports["default"] = RelatedProducts;

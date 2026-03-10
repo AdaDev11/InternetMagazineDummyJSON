@@ -5,7 +5,15 @@ import Header from "../../components/header";
 import AllProductsPage from "../../components/products/page";
 import Footer from "../../components/footer";
 
-export default function Page({ params }: { params: { products: string } }) {
+type Props = {
+    params: {
+        products: string;
+    };
+};
+
+export default function Page({ params }: Props) {
+    const { products } = params;
+
     const [searchValue, setSearchValue] = useState("");
 
     return (
