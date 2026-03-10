@@ -14,7 +14,7 @@ import {
     Grid,
 } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { ProductCard } from "../products/components/ProductCard";
+import ProductCard from "./products/components/ProductCard";
 
 export default function RelatedProducts() {
     const params = useParams();
