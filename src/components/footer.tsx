@@ -1,4 +1,4 @@
-import { Link } from "next/link";
+import Link from "next/link";
 import { Box, Grid, Typography, Divider } from "@mui/material";
 import React from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";

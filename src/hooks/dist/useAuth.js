@@ -41,6 +41,20 @@ exports.useUserProfile = exports.useLogin = void 0;
 var react_query_1 = require("@tanstack/react-query");
 var authClient_1 = require("@/services/authClient");
 var useAuthStore_1 = require("@/stores/useAuthStore");
+// Fetch wrapper with auth token
+function authFetch(url) {
+    return __awaiter(this, void 0, void 0, function () {
+        var accessToken;
+        return __generator(this, function (_a) {
+            accessToken = localStorage.getItem("accessToken");
+            return [2 /*return*/, fetch(url, {
+                    headers: {
+                        Authorization: accessToken ? "Bearer " + accessToken : ""
+                    }
+                })];
+        });
+    });
+}
 function useLogin() {
     var setTokens = useAuthStore_1.useAuthStore(function (s) { return s.setTokens; });
     var setUser = useAuthStore_1.useAuthStore(function (s) { return s.setUser; });
@@ -49,8 +63,8 @@ function useLogin() {
         mutationFn: authClient_1.loginClient,
         onSuccess: function (data) {
             setTokens(data.accessToken, data.refreshToken);
-            setUser(data);
-            qc.invalidateQueries(["userProfile"]);
+            setUser(data.user || data);
+            qc.invalidateQueries({ queryKey: ["userProfile"] });
         }
     });
 }

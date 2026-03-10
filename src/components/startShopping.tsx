@@ -30,7 +30,6 @@ export default function StartShopping() {
                     sx={{
                         fontSize: "10px",
                         color: "#cccc",
-                        width: "200px",
                         height: "200px",
                         display: "flex",
                         justifyContent: "center",

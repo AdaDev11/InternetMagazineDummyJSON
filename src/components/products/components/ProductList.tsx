@@ -1,8 +1,13 @@
 import Link from "next/link";
-import { Grid } from "@mui/material";
-import ProductCard from "./ProductCard";
+import { Grid, Typography } from "@mui/material";
+import ProductCard, { Product } from "./ProductCard";
 
-export default function ProductList({ products }) {
+interface ProductListProps {
+    products: Product[];
+    qty?: number;
+}
+
+export default function ProductList({ products, qty = 1 }: ProductListProps) {
     return (
         <Grid
             container
@@ -16,13 +21,14 @@ export default function ProductList({ products }) {
             }}
         >
             {products?.map((product) => (
-                <Grid item xs={6} sm={3} md={3} key={product.id}>
+                <Grid item xs={6} sm={3} key={product.id}>
                     <Link
                         href={`/product/${product.id}`}
                         style={{ textDecoration: "none" }}
                     >
-                        <ProductCard product={product} />
+                        <ProductCard product={product} qty={qty} />
                     </Link>
+                    <Typography>.</Typography>
                 </Grid>
             ))}
         </Grid>

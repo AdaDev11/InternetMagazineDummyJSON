@@ -47,20 +47,20 @@ var ArrowForwardIos_1 = require("@mui/icons-material/ArrowForwardIos");
 var ProductList_1 = require("./components/ProductList");
 function AllProductsPage(_a) {
     var _this = this;
-    var searchValue = _a.searchValue, category = _a.category, sort = _a.sort;
-    var _b = react_1.useState([]), products = _b[0], setProducts = _b[1];
-    var _c = react_1.useState(false), loading = _c[0], setLoading = _c[1];
-    var _d = react_1.useState(1), page = _d[0], setPage = _d[1];
-    var _e = react_1.useState(0), total = _e[0], setTotal = _e[1];
+    var _b = _a.searchValue, searchValue = _b === void 0 ? "" : _b, _c = _a.category, category = _c === void 0 ? "" : _c, _d = _a.sort, sort = _d === void 0 ? "" : _d;
+    var _e = react_1.useState([]), products = _e[0], setProducts = _e[1];
+    var _f = react_1.useState(false), loading = _f[0], setLoading = _f[1];
+    var _g = react_1.useState(1), page = _g[0], setPage = _g[1];
+    var _h = react_1.useState(0), total = _h[0], setTotal = _h[1];
     var limit = 12;
-    var _f = react_1.useState({
+    var _j = react_1.useState({
         search: "",
         sort: "",
         category: ""
-    }), filters = _f[0], setFilters = _f[1];
-    var _g = useSearchFunction_1.useSearchFunction(searchValue), searchData = _g.data, searchLoading = _g.isLoading;
+    }), filters = _j[0], setFilters = _j[1];
+    var _k = useSearchFunction_1.useSearchFunction(searchValue), searchData = _k.data, searchLoading = _k.isLoading;
     var isMobile = material_1.useMediaQuery("(max-width: 900px)");
-    var _h = react_1.useState(false), open = _h[0], setOpen = _h[1];
+    var _l = react_1.useState(false), open = _l[0], setOpen = _l[1];
     react_1.useEffect(function () {
         setPage(1);
     }, [searchValue, category, sort]);

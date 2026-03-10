@@ -1,32 +1,17 @@
-import { getAllProducts } from "./../services/getAllProduct";
+"use client";
 import { useQuery } from "@tanstack/react-query";
 
-interface Dimensions {
-    width: number;
-    height: number;
-    depth: number;
-}
+export const useProducts = (category?: string, sort?: string) => {
+    return useQuery({
+        queryKey: ["products", category, sort],
+        queryFn: async () => {
+            let url = `/api/products`;
+            if (category) url += `?category=${category}`;
+            if (sort) url += `&sort=${sort}`;
 
-type Product = {
-    id: number;
-    title: string;
-    description: string;
-    category: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    sku: string;
-    dimensions: Dimensions;
-    warrantyInformation: string;
-    images: string[];
-};
-
-export function useProducts({ filter }: { filter: string }) {
-    return useQuery<Product[]>({
-        queryKey: ["products", filter],
-        queryFn: () => getAllProducts(filter),
-        keepPreviousData: true,
+            const res = await fetch(url);
+            if (!res.ok) throw new Error("Failed to fetch products");
+            return res.json();
+        },
     });
-}
+};

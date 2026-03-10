@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Header from "../../../components/header";
 import Footer from "../../../components/footer";
 import ProductDetails from "../../../components/productDetails";
@@ -8,9 +10,11 @@ export default function ProductDetailsPage({
 }: {
     params: { id: string };
 }) {
+    const [searchValue, setSearchValue] = useState("");
+
     return (
         <div>
-            <Header />
+            <Header searchValue={searchValue} setSearchValue={setSearchValue} />
             <ProductDetails id={params.id} />
             <RelatedProducts />
             <Footer />

@@ -22,7 +22,7 @@ exports.__esModule = true;
 exports.useCartStore = void 0;
 var zustand_1 = require("zustand");
 var middleware_1 = require("zustand/middleware");
-exports.useCartStore = zustand_1.create(middleware_1.persist(function (set) { return ({
+exports.useCartStore = zustand_1.create()(middleware_1.persist(function (set) { return ({
     items: [],
     addToCart: function (product) {
         return set(function (state) {
@@ -58,4 +58,6 @@ exports.useCartStore = zustand_1.create(middleware_1.persist(function (set) { re
             items: state.items.filter(function (i) { return i.id !== id; })
         }); });
     }
-}); }));
+}); }, {
+    name: "cart-storage"
+}));

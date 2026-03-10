@@ -9,7 +9,18 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ProductList from "./components/ProductList";
 import { searchFunction } from "./../../services/Search";
 
-export default function AllProductsPage({ searchValue, category, sort }) {
+
+interface AllProductsPageProps {
+    searchValue?: string;
+    category?: string;
+    sort?: string;
+}
+
+export default function AllProductsPage({
+    searchValue = "",
+    category = "",
+    sort = "",
+  }: AllProductsPageProps) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);

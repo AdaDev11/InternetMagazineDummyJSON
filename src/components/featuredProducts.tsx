@@ -6,7 +6,6 @@ import {
     Card,
     CardMedia,
     CardContent,
-    CardAction,
     CardActions,
     Rating,
     Grid,
@@ -80,15 +79,10 @@ export default function FeaturedProducts() {
                     </Button>
                 </Box>
             </Box>
-            <Grid
-                container
-                spacing={4}
-                sx={{
-                    p: "2%",
-                }}
-            >
-                {data?.products ? (
-                    data.products?.map((product: any) => (
+
+            <Grid container spacing={4} sx={{ p: "2%" }}>
+                {data && data.length > 0 ? (
+                    data.map((product: any) => (
                         <Grid
                             size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
                             key={product.id}

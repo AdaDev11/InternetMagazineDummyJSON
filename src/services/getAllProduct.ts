@@ -1,3 +1,13 @@
+export interface GetAllProductsParams {
+    limit?: number;
+    skip?: number;
+    category?: string;
+    search?: string;
+    sortBy?: string;
+    order?: string;
+    select?: string;
+}
+
 export const getAllProducts = async ({
     limit,
     skip,
@@ -6,7 +16,7 @@ export const getAllProducts = async ({
     sortBy,
     order,
     select,
-} = {}) => {
+}: GetAllProductsParams = {}): Promise<any> => {
     let url = "https://dummyjson.com/products";
 
     if (search) {

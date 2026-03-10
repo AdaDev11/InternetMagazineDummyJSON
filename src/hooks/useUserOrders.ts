@@ -1,11 +1,16 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { getUserOrders } from "@/services/cart";
 
-export function useUserOrders(userId: number) {
+export const useUserOrders = (userId: number) => {
     return useQuery({
-        queryKey: ["orders", userId],
-        queryFn: () => getUserOrders(userId),
+        queryKey: ["userOrders", userId],
+        queryFn: async () => {
+            const res = await fetch(
+                `https://dummyjson.com/users/${userId}/carts`
+            );
+            if (!res.ok) throw new Error("Failed to fetch orders");
+            return res.json();
+        },
         enabled: !!userId,
     });
-}
+};

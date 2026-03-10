@@ -26,7 +26,12 @@ import ModalCard from "../components/ModalCard";
 import { useCartStore } from "../hooks/useCartStore";
 import { useAuthStore } from "../hooks/useAuthStore";
 
-export default function Header({ searchValue, setSearchValue }) {
+interface HeaderProps {
+    searchValue: string;
+    setSearchValue: (value: string) => void;
+}
+
+export default function Header({ searchValue, setSearchValue }: HeaderProps) {
     const router = useRouter();
     const items = useCartStore((s) => s.items);
     const updateQuantity = useCartStore((s) => s.updateQuantity);

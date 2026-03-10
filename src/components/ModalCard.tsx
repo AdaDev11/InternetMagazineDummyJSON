@@ -5,17 +5,33 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+export interface CartItem {
+    id: number;
+    title: string;
+    price: number;
+    qty: number;
+    image?: string;
+}
+
+interface ModalCardProps {
+    open: boolean;
+    onClose: () => void;
+    cart: CartItem[];
+    updateQty: (id: number, action: "inc" | "dec") => void;
+    removeItem: (id: number) => void;
+}
+
 export default function ModalCard({
     open,
     onClose,
     cart = [],
     updateQty,
     removeItem,
-}) {
+}: ModalCardProps) {
     const safeCart = cart || [];
 
     const total = safeCart.reduce(
-        (sum, item) => sum + item.price * item.qty || 1,
+        (sum, item) => sum + item.price * item.qty,
         0
     );
 
@@ -39,7 +55,7 @@ export default function ModalCard({
                     }}
                 >
                     <Typography variant="h6">Shopping Cart</Typography>
-                    <IconButton onClick={() => onClose}>
+                    <IconButton onClick={onClose}>
                         <CloseIcon />
                     </IconButton>
                 </Box>
@@ -64,7 +80,7 @@ export default function ModalCard({
                         >
                             <Box sx={{ display: "flex", gap: 2 }}>
                                 <img
-                                    src={item?.image}
+                                    src={item.image}
                                     width={60}
                                     height={60}
                                     style={{ borderRadius: 8 }}
@@ -90,7 +106,7 @@ export default function ModalCard({
                                     <RemoveIcon />
                                 </IconButton>
 
-                                <Typography>{item.qty || 1}</Typography>
+                                <Typography>{item.qty}</Typography>
 
                                 <IconButton
                                     onClick={() => updateQty(item.id, "inc")}

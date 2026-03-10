@@ -22,7 +22,13 @@ export function isLoggedIn() {
     return true;
 }
 
-export function saveAuth({ accessToken, expiresInSeconds }) {
+export function saveAuth({
+    accessToken,
+    expiresInSeconds,
+}: {
+    accessToken: string;
+    expiresInSeconds: number;
+}) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem(
         "tokenExpiry",

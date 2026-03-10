@@ -1,23 +1,21 @@
+"use client";
 import { create } from "zustand";
 
-interface AuthState {
-    token: string | null;
-    userId: number | null;
-    login: (token: string, userId: number) => void;
-    logout: () => void;
+export interface AuthState {
+    accessToken: string | null;
+    refreshToken: string | null;
+    user: any | null;
+    setTokens: (accessToken: string, refreshToken: string) => void;
+    setUser: (user: any) => void;
+    clearAuth: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-    token: null,
-    userId: null,
-
-    login: (token, userId) => {
-        localStorage.setItem("token", token);
-        set({ token, userId });
-    },
-
-    logout: () => {
-        localStorage.removeItem("token");
-        set({ token: null, userId: null });
-    },
+    accessToken: null,
+    refreshToken: null,
+    user: null,
+    setTokens: (accessToken, refreshToken) =>
+        set({ accessToken, refreshToken }),
+    setUser: (user) => set({ user }),
+    clearAuth: () => set({ accessToken: null, refreshToken: null, user: null }),
 }));

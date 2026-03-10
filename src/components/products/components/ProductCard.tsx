@@ -16,7 +16,21 @@ import { useAddProduct } from "@/hooks/useAddProduct";
 import { usePopoverMessage } from "@/hooks/usePopoverMessage";
 import AddToCartButton from "./AddToCartButton";
 
-export default function ProductCard({ product, qty }) {
+export interface Product {
+    id: number;
+    title: string;
+    price: number;
+    category: string;
+    rating: number;
+    images?: string[];
+  }
+
+  interface ProductCardProps {
+    product: Product;
+    qty?: number;
+  }
+  
+export default function ProductCard({ product, qty = 1 }: ProductCardProps) {
     const { mutate } = useAddProduct();
     const { anchorEl, message, color, showPopover } = usePopoverMessage();
 

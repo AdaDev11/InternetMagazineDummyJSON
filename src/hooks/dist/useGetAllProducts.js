@@ -6,7 +6,7 @@ var react_query_1 = require("@tanstack/react-query");
 function useGetAllProducts() {
     return react_query_1.useQuery({
         queryKey: ["product"],
-        queryFn: getAllProduct_1.getAllProducts
+        queryFn: function () { return getAllProduct_1.getAllProducts(); }
     });
 }
 exports.useGetAllProducts = useGetAllProducts;

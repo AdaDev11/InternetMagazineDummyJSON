@@ -1,7 +1,18 @@
 "use client";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { loginClient, getMeClient } from "@/services/authClient";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { loginClient } from "@/services/authClient";
 import { useAuthStore } from "@/stores/useAuthStore";
+
+// Fetch wrapper with auth token
+async function authFetch(url: string) {
+    const accessToken = localStorage.getItem("accessToken");
+    return fetch(url, {
+        headers: {
+            Authorization: accessToken ? `Bearer ${accessToken}` : "",
+        },
+    });
+}
+
 export function useLogin() {
     const setTokens = useAuthStore((s) => s.setTokens);
     const setUser = useAuthStore((s) => s.setUser);
@@ -11,14 +22,15 @@ export function useLogin() {
         mutationFn: loginClient,
         onSuccess: (data) => {
             setTokens(data.accessToken, data.refreshToken);
-            setUser(data);
-            qc.invalidateQueries(["userProfile"]);
+            setUser(data.user || data);
+            qc.invalidateQueries({ queryKey: ["userProfile"] });
         },
     });
 }
 
 export function useUserProfile() {
     const setUser = useAuthStore((s) => s.setUser);
+
     return useQuery({
         queryKey: ["userProfile"],
         queryFn: async () => {
@@ -27,11 +39,6 @@ export function useUserProfile() {
             const data = await res.json();
             setUser(data);
             return data;
-            console.log("data.token", data.token);
-            console.log(
-                "localStorage token",
-                localStorage.getItem("accessToken")
-            );
         },
         retry: false,
     });

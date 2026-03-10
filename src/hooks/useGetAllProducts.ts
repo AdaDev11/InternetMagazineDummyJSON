@@ -26,6 +26,6 @@ type Product = {
 export function useGetAllProducts() {
     return useQuery<Product[]>({
         queryKey: ["product"],
-        queryFn: getAllProducts,
+        queryFn: () => getAllProducts(),
     });
 }

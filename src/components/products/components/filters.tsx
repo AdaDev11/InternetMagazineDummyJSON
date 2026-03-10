@@ -8,7 +8,18 @@ import {
     FormControl,
 } from "@mui/material";
 
-export default function Filters({ filters, setFilters }) {
+interface FiltersType {
+    search: string;
+    sort: string;
+    category: string;
+}
+
+interface FiltersProps {
+    filters: FiltersType;
+    setFilters: (filters: FiltersType) => void;
+}
+
+export default function Filters({ filters, setFilters }: FiltersProps) {
     return (
         <Box sx={{ maxWidth: 300, p: 2 }}>
             <Typography variant="h6">Filters</Typography>

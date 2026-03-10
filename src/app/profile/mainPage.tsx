@@ -16,29 +16,22 @@ import { useState, useEffect } from "react";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import { useUserProfile } from "@/hooks/useUserProfile";
-import { StartShopping } from "../../components/startShopping";
-import Header from "@/components/header";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import { useUserOrders } from "@/hooks/useUserOrders";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { useUserOrders } from "@/hooks/useUserOrders";
 
 export default function MainPage() {
     const [value, setValue] = useState(0);
     const { data: user, isLoading, error } = useUserProfile();
     const [mounted, setMounted] = useState(false);
-    const { data: orders } = useUserOrders(user?.id);
+    const { data: orders } = useUserOrders(user?.id ?? 0);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
     if (!mounted) return null;
-
     if (isLoading) return <Typography>Loading...</Typography>;
     if (error)
         return <Typography color="error">Error loading profile</Typography>;
@@ -46,12 +39,9 @@ export default function MainPage() {
 
     return (
         <Box sx={{ width: "90%", mx: "auto", mt: 4 }}>
+            {/* Header */}
             <Box display="flex" justifyContent="space-between">
-                <Typography
-                    fontSize={28}
-                    fontWeight="bold"
-                    sx={{ fontFamily: "Roboto" }}
-                >
+                <Typography fontSize={28} fontWeight="bold">
                     My Profile
                 </Typography>
                 <Button
@@ -67,19 +57,23 @@ export default function MainPage() {
                 </Button>
             </Box>
 
+            {/* Tabs */}
             <Tabs value={value} onChange={(_, v) => setValue(v)} centered>
                 <Tab label="Profile" />
                 <Tab label="Orders" />
                 <Tab label="Settings" />
             </Tabs>
 
+            {/* Profile Tab */}
             {value === 0 && (
                 <>
                     <Box
-                        mt={8}
                         p={2}
-                        sx={{ borderRadius: "4px", border: "1px solid #cccc" }}
-                        mt={4}
+                        sx={{
+                            borderRadius: "4px",
+                            border: "1px solid #ccc",
+                            mt: 4,
+                        }}
                         display="flex"
                         gap={2}
                         alignItems="center"
@@ -101,93 +95,52 @@ export default function MainPage() {
                     </Box>
 
                     <Box
-                        mt={8}
+                        mt={4}
                         p={2}
-                        sx={{ borderRadius: "4px", border: "1px solid #cccc" }}
+                        sx={{ borderRadius: "4px", border: "1px solid #ccc" }}
                     >
                         <Typography fontWeight="bold" mb={2}>
-                            <span>
-                                <PersonOutlineOutlinedIcon />
-                            </span>
-                            Personal Information
+                            <PersonOutlineOutlinedIcon /> Personal Information
                         </Typography>
-
-                        <Grid container spacing={2} mt={1}>
-                            <Grid item size={{ sm: 6, xs: 12 }}>
-                                <Typography>First name</Typography>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    value={user.firstName}
-                                />
-                            </Grid>
-                            <Grid item size={{ sm: 6, xs: 12 }}>
-                                <Typography>Last name</Typography>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    value={user.lastName}
-                                />
-                            </Grid>
-                            <Grid item size={{ sm: 6, xs: 12 }}>
-                                <Typography>Email</Typography>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    value={user.email}
-                                />
-                            </Grid>
-
-                            <Grid item size={{ sm: 6, xs: 12 }}>
-                                <Typography>Phone</Typography>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    value={user.phone}
-                                />
-                            </Grid>
-                            <Grid item size={{ sm: 6, xs: 12 }}>
-                                <Typography>Age</Typography>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    value={user.age}
-                                />
-                            </Grid>
-                            <Grid item size={{ sm: 6, xs: 12 }}>
-                                <Typography>Gender</Typography>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    value={user.gender}
-                                />
-                            </Grid>
+                        <Grid container spacing={2}>
+                            {[
+                                { label: "First name", value: user.firstName },
+                                { label: "Last name", value: user.lastName },
+                                { label: "Email", value: user.email },
+                                { label: "Phone", value: user.phone },
+                                { label: "Age", value: user.age },
+                                { label: "Gender", value: user.gender },
+                            ].map((field) => (
+                                <Grid item xs={12} sm={6} key={field.label}>
+                                    <Typography>{field.label}</Typography>
+                                    <TextField
+                                        fullWidth
+                                        size="small"
+                                        value={field.value}
+                                    />
+                                </Grid>
+                            ))}
                         </Grid>
                     </Box>
 
                     <Box
-                        mt={8}
+                        mt={4}
                         p={2}
-                        sx={{ borderRadius: "4px", border: "1px solid #cccc" }}
+                        sx={{ borderRadius: "4px", border: "1px solid #ccc" }}
                     >
-                        <Typography
-                            mt={2}
-                            fontWeight="bold"
-                            display="flex"
-                            gap={1}
-                        >
+                        <Typography fontWeight="bold" display="flex" gap={1}>
                             <LocationOnOutlinedIcon /> Address
                         </Typography>
-                        <Typography mt={1}>{user.address.address}</Typography>
-                        <Typography mt={1}>
+                        <Typography>{user.address.address}</Typography>
+                        <Typography>
                             {user.address.city}, {user.address.state}
                         </Typography>
                     </Box>
 
                     <Box
-                        mt={8}
+                        mt={4}
                         p={2}
-                        sx={{ borderRadius: "4px", border: "1px solid #cccc" }}
+                        sx={{ borderRadius: "4px", border: "1px solid #ccc" }}
                     >
                         <Typography fontWeight="bold">
                             Company Information
@@ -199,6 +152,7 @@ export default function MainPage() {
                 </>
             )}
 
+            {/* Orders Tab */}
             {value === 1 && (
                 <Box mt={4}>
                     <Typography>Orders</Typography>
@@ -215,7 +169,6 @@ export default function MainPage() {
                             <Typography fontWeight="bold">
                                 Order #{cart.id}
                             </Typography>
-
                             {cart.products.map((product: any) => (
                                 <Box
                                     key={product.id}
@@ -229,7 +182,6 @@ export default function MainPage() {
                                     </Typography>
                                 </Box>
                             ))}
-
                             <Typography mt={2} fontWeight="bold">
                                 Total: ${cart.total}
                             </Typography>
@@ -238,88 +190,50 @@ export default function MainPage() {
                 </Box>
             )}
 
+            {/* Settings Tab */}
             {value === 2 && (
-                <Box mt={4}>
-                    <Box
+                <Box
+                    mt={4}
+                    sx={{ border: "1px solid #ddd", p: 2, borderRadius: "6px" }}
+                >
+                    <Typography fontWeight="bold" mb={2}>
+                        <SettingsOutlinedIcon /> Account Settings
+                    </Typography>
+                    <Box display="flex" alignItems="center" mt={2}>
+                        <Checkbox />
+                        <Typography>Email notifications for orders</Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" mt={1}>
+                        <Checkbox />
+                        <Typography>
+                            SMS notifications for shipping updates
+                        </Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" mt={1}>
+                        <Checkbox />
+                        <Typography>Marketing emails</Typography>
+                    </Box>
+                    <Divider sx={{ my: 2 }} />
+                    <Box display="flex" alignItems="center" mt={1}>
+                        <Checkbox />
+                        <Typography>Make profile public</Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" mt={1}>
+                        <Checkbox />
+                        <Typography>
+                            Allow data collection for analytics
+                        </Typography>
+                    </Box>
+                    <Divider sx={{ my: 2 }} />
+                    <Button
                         sx={{
-                            border: "1px solid #ddd",
-                            p: 2,
-                            mb: 2,
-                            borderRadius: "6px",
+                            background: "red",
+                            color: "white",
+                            textTransform: "none",
                         }}
                     >
-                        <Typography fontWeight="bold" mb={2}>
-                            <span>
-                                <SettingsOutlinedIcon />
-                            </span>
-                            Account Settings
-                        </Typography>
-
-                        <Typography>Notifications</Typography>
-                        <Grid>
-                            <Box
-                                display="flex"
-                                mt={2}
-                                sx={{ alignItems: "center" }}
-                            >
-                                <Checkbox />
-                                <Typography>
-                                    Email notifications for orders
-                                </Typography>
-                            </Box>
-
-                            <Box display="flex" sx={{ alignItems: "center" }}>
-                                <Checkbox />
-                                <Typography>
-                                    SMS notifications for shipping updates
-                                </Typography>
-                            </Box>
-
-                            <Box display="flex" sx={{ alignItems: "center" }}>
-                                <Checkbox />
-                                <Typography>Marketing emails</Typography>
-                            </Box>
-                        </Grid>
-
-                        <Divider />
-
-                        <Grid mt={2}>
-                            <Typography>Privacy</Typography>
-
-                            <Box
-                                display="flex"
-                                mt={2}
-                                sx={{ alignItems: "center" }}
-                            >
-                                <Checkbox />
-                                <Typography>Make profile public</Typography>
-                            </Box>
-
-                            <Box display="flex" sx={{ alignItems: "center" }}>
-                                <Checkbox />
-                                <Typography>
-                                    Allow data collection for analytics
-                                </Typography>
-                            </Box>
-                        </Grid>
-
-                        <Divider />
-
-                        <Grid mt={2}>
-                            <Typography>Danger Zone</Typography>
-
-                            <Button
-                                sx={{
-                                    background: "red",
-                                    color: "white",
-                                    marginTop: "1%",
-                                    textTransform: "none",
-                                }}
-                            >
-                                Delet Account
-                            </Button>
-                        </Grid>
-                    </Box>
+                        Delete Account
+                    </Button>
                 </Box>
             )}
         </Box>
