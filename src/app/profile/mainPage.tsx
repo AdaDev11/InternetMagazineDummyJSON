@@ -1,17 +1,15 @@
 "use client";
 
-import {
-    Box,
-    Typography,
-    Button,
-    Tabs,
-    Tab,
-    Divider,
-    Grid,
-    TextField,
-    Stack,
-    Checkbox,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Checkbox from "@mui/material/Checkbox";
 import { useState, useEffect } from "react";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -111,7 +109,7 @@ export default function MainPage() {
                                 { label: "Age", value: user.age },
                                 { label: "Gender", value: user.gender },
                             ].map((field) => (
-                                <Grid item xs={12} sm={6} key={field.label}>
+                                <Grid size={{ xs: 12, sm: 6 }} key={field.label}>
                                     <Typography>{field.label}</Typography>
                                     <TextField
                                         fullWidth

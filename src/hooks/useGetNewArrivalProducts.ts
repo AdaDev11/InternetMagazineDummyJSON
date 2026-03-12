@@ -27,6 +27,10 @@ type Product = {
 export function useProductNewArrivalProducts() {
     return useQuery<Product[]>({
         queryKey: ["newArrivalProducts"],
-        queryFn: getNewArrivalProducts,
+        // queryFn: getNewArrivalProducts,
+        queryFn: async () => {
+            const data = await getNewArrivalProducts();
+            return data.products ?? [];
+        },
     });
 }

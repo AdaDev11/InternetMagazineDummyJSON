@@ -1,6 +1,10 @@
 "use client";
+
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { Typography, Button, Box, Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import ProductCard from "./products/components/ProductCard";
 import { useProductNewArrivalProducts } from "../hooks/useGetNewArrivalProducts";
@@ -12,15 +16,19 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     ...theme.typography.body2,
     textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
 }));
 
 export default function NewArrivals() {
-    const { data, isLoading, error } = useProductNewArrivalProducts();
+    // const { data, isLoading, error } = useProductNewArrivalProducts();
+    const { data: products, isLoading, error } = useProductNewArrivalProducts();
 
-    if (error) return <p>Error: {`${error}`}</p>;
+    if (error) return <p>Error loading products</p>;
 
-    const products = data?.products || []; // ✅ array qilish
+    // agar API { products: [] } qaytarsa
+    // const products = data ?? [];
 
     return (
         <Box
@@ -31,6 +39,7 @@ export default function NewArrivals() {
                 mt: "2%",
             }}
         >
+            {/* HEADER */}
             <Box
                 sx={{
                     width: "100%",
@@ -50,23 +59,25 @@ export default function NewArrivals() {
                     >
                         New Arrivals
                     </Typography>
+
                     <Typography
                         sx={{
                             fontSize: "20px",
                             fontWeight: "bold",
-                            color: "#cccc",
+                            color: "#ccc",
                         }}
                     >
                         Latest products added to our collection
                     </Typography>
                 </Box>
+
                 <Box sx={{ margin: "2%" }}>
                     <Button
                         sx={{
                             color: "black",
                             fontSize: "14px",
                             borderRadius: "8px",
-                            border: "0.2px solid #cccc",
+                            border: "0.2px solid #ccc",
                         }}
                         endIcon={<ArrowRightAltIcon />}
                     >
@@ -75,6 +86,7 @@ export default function NewArrivals() {
                 </Box>
             </Box>
 
+            {/* PRODUCTS */}
             <Box>
                 <Grid container spacing={4} sx={{ p: "2%" }}>
                     {isLoading ? (
@@ -85,19 +97,13 @@ export default function NewArrivals() {
                                 justifyContent: "center",
                             }}
                         >
-                            <DemoPaper variant="elevation">
-                                Loading...
-                            </DemoPaper>
+                            <DemoPaper elevation={3}>Loading...</DemoPaper>
                         </Box>
                     ) : (
-                        products.map((product: any) => (
+                        products?.map((product: any) => (
                             <Grid
                                 key={product.id}
-                                item
-                                xs={12}
-                                sm={6}
-                                md={4}
-                                lg={3}
+                                size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
                             >
                                 <ProductCard product={product} />
                             </Grid>

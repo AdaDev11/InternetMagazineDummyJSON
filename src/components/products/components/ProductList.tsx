@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Grid, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import ProductCard, { Product } from "./ProductCard";
 
 interface ProductListProps {
@@ -21,7 +22,7 @@ export default function ProductList({ products, qty = 1 }: ProductListProps) {
             }}
         >
             {products?.map((product) => (
-                <Grid item xs={6} sm={3} key={product.id}>
+                <Grid size={{xs:6, sm:3}} key={product.id}>
                     <Link
                         href={`/product/${product.id}`}
                         style={{ textDecoration: "none" }}

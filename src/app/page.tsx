@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Header from "../components/header";
 import "../style/style.css";
@@ -14,10 +15,18 @@ import ModalCard from "../components/ModalCard";
 import { useState } from "react";
 
 export default function Home() {
+    const [searchValue, setSearchValue] = useState("");
+
     return (
         <div>
-            <Header />
-            <ModalCard />
+            <Header searchValue={searchValue} setSearchValue={setSearchValue} />
+            <ModalCard
+                open={false}
+                onClose={() => {}}
+                cart={[]}
+                updateQty={() => {}}
+                removeItem={() => {}}
+            />
             <Hero />
             <ByCategory />
             <FeaturedProducts />

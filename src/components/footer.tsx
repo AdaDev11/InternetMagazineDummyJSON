@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { Box, Grid, Typography, Divider } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 import React from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -18,7 +21,7 @@ export default function Footer() {
             }}
         >
             <Grid container spacing={7.8} sx={{ mb: 4, p: "2%" }}>
-                <Grid item xs={12} sm={6} md={3} sx={{ maxWidth: "340px" }}>
+                <Grid  size={{xs:12, sm:6, md:3}} sx={{ maxWidth: "340px" }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                         <Box
                             sx={{
@@ -68,7 +71,7 @@ export default function Footer() {
                     </Box>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3} sx={{ minWidth: "300px" }}>
+                <Grid size={{xs:12, sm:6, md:3}}  sx={{ minWidth: "300px" }}>
                     <Typography
                         sx={{
                             fontWeight: "bold",
@@ -85,7 +88,7 @@ export default function Footer() {
                     <Typography>Profile</Typography>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3} sx={{ minWidth: "300px" }}>
+                <Grid size={{xs:12, sm:6, md:3}}  sx={{ minWidth: "300px" }}>
                     <Typography
                         sx={{
                             fontWeight: "bold",
@@ -103,7 +106,7 @@ export default function Footer() {
                     <Typography>Size Guide</Typography>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3} sx={{ minWidth: "300px" }}>
+                <Grid size={{xs:12, sm:6, md:3}}  sx={{ minWidth: "300px" }}>
                     <Typography
                         sx={{
                             fontWeight: "bold",
@@ -169,7 +172,7 @@ export default function Footer() {
 
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <Typography
-                        href="#"
+  component="a"
                         sx={{
                             fontSize: "12px",
                         }}
@@ -177,7 +180,7 @@ export default function Footer() {
                         Privacy Policy
                     </Typography>
                     <Typography
-                        href="#"
+                    component="a"
                         sx={{
                             fontSize: "12px",
                         }}
@@ -185,7 +188,7 @@ export default function Footer() {
                         Terms of Service
                     </Typography>
                     <Typography
-                        href="#"
+                    component="a"
                         sx={{
                             fontSize: "12px",
                         }}

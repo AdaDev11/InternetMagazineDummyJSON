@@ -26,10 +26,10 @@ import ModalCard from "../components/ModalCard";
 import { useCartStore } from "../hooks/useCartStore";
 import { useAuthStore } from "../hooks/useAuthStore";
 
-interface HeaderProps {
+type HeaderProps = {
     searchValue: string;
-    setSearchValue: (value: string) => void;
-}
+    setSearchValue: (v: string) => void;
+};
 
 export default function Header({ searchValue, setSearchValue }: HeaderProps) {
     const router = useRouter();

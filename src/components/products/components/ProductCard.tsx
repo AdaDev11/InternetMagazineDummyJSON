@@ -23,13 +23,13 @@ export interface Product {
     category: string;
     rating: number;
     images?: string[];
-  }
+}
 
-  interface ProductCardProps {
+interface ProductCardProps {
     product: Product;
     qty?: number;
-  }
-  
+}
+
 export default function ProductCard({ product, qty = 1 }: ProductCardProps) {
     const { mutate } = useAddProduct();
     const { anchorEl, message, color, showPopover } = usePopoverMessage();

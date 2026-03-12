@@ -1,15 +1,15 @@
 "use client";
-import {
-    Box,
-    Typography,
-    Button,
-    Card,
-    CardMedia,
-    CardContent,
-    CardActions,
-    Rating,
-    Grid,
-} from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Rating from "@mui/material/Rating";
+
 import React from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useProductFeaturedProducts } from "../hooks/useGetFeaturedProducts";
@@ -97,11 +97,11 @@ export default function FeaturedProducts() {
                     ))
                 ) : (
                     <Box
-                        direction="row"
                         sx={{
-                            width: "100%",
                             display: "flex",
+                            flexDirection: "row",
                             justifyContent: "center",
+                            width: "100%",
                         }}
                     >
                         <DemoPaper variant="elevation">Loading</DemoPaper>

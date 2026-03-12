@@ -2,15 +2,13 @@
 
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import {
-    Box,
-    Typography,
-    Grid,
-    Card,
-    Rating,
-    Button,
-    Divider,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -25,9 +23,12 @@ import ReplayOutlinedIcon from "@mui/icons-material/ReplayOutlined";
 import ProductCard from "./products/components/AddToCartButton";
 import { useState } from "react";
 
-export default function ProductDetails() {
+type Props = { id: string };
+
+export default function ProductDetailsClient({ id }: Props) {
+    // export default function ProductDetails() {
     const params = useParams();
-    const productId = params?.id as string; // id nomini o'zgartirdik
+    const productId = params?.id as string;
     const [qty, setQty] = useState(1);
 
     const { data, isLoading, error } = useQuery({
@@ -46,7 +47,7 @@ export default function ProductDetails() {
         <Box sx={{ m: "1%", width: "98%", pt: "4%" }}>
             <Grid container spacing={4}>
                 {/* Product Images */}
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     <Swiper
                         direction="horizontal"
                         slidesPerView={1}
@@ -83,7 +84,7 @@ export default function ProductDetails() {
                 </Grid>
 
                 {/* Product Info */}
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography
                         sx={{
                             background: "#333",
